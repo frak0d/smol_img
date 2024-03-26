@@ -59,8 +59,16 @@ int main(int argc, char* argv[])
         // crop
         auto img = input_img.copy(QRect{QPoint{ui.crop_left->value(),                      ui.crop_top->value()},
                                         QPoint{input_img.width() - ui.crop_right->value(), input_img.height() - ui.crop_bottom->value()}});
+        
         // rotate
         img = img.transformed(QTransform{}.rotate(rotation));
+        
+        if (img.sizeInBytes() == 0)
+        {
+            img_view.setText("Error while Cropping the Image !"); // removes old pixmap
+            ui.out_res_str->clear(); ui.out_size_str->clear();
+            return;
+        }
         
         QSize min_res = {std::min(img.width(), ui.min_width->value()),
                          std::min(img.height(), ui.min_height->value())};
@@ -224,12 +232,46 @@ int main(int argc, char* argv[])
     QObject::connect(ui.rotl_btn, &QPushButton::clicked, [&]
     {
         rotation -= 90;
+        
+        int crop_top = ui.crop_top->value();
+        int crop_left = ui.crop_left->value();
+        int crop_right = ui.crop_right->value();
+        int crop_bottom = ui.crop_bottom->value();
+        
+        ui.crop_left->setValue(crop_top);
+        ui.crop_bottom->setValue(crop_left);
+        ui.crop_right->setValue(crop_bottom);
+        ui.crop_top->setValue(crop_right);
+        
+        auto top = ui.crop_top;
+        ui.crop_top = ui.crop_left;
+        ui.crop_left = ui.crop_bottom;
+        ui.crop_bottom = ui.crop_right;
+        ui.crop_right = top;
+        
         ui.phony_btn->click();
     });
     
     QObject::connect(ui.rotr_btn, &QPushButton::clicked, [&]
     {
         rotation += 90;
+        
+        int crop_top = ui.crop_top->value();
+        int crop_left = ui.crop_left->value();
+        int crop_right = ui.crop_right->value();
+        int crop_bottom = ui.crop_bottom->value();
+        
+        ui.crop_right->setValue(crop_top);
+        ui.crop_bottom->setValue(crop_right);
+        ui.crop_left->setValue(crop_bottom);
+        ui.crop_top->setValue(crop_left);
+        
+        auto top = ui.crop_top;
+        ui.crop_top = ui.crop_right;
+        ui.crop_right = ui.crop_bottom;
+        ui.crop_bottom = ui.crop_left;
+        ui.crop_left = top;
+        
         ui.phony_btn->click();
     });
     
