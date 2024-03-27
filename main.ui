@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>650</height>
+    <height>685</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>smol_img tool v1.1 by frakod</string>
+   <string>smol_img tool v1.2 by frakod</string>
   </property>
   <property name="windowIcon">
    <iconset theme="zoom-fit-best"/>
@@ -28,8 +28,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>666</width>
-         <height>630</height>
+         <width>648</width>
+         <height>661</height>
         </rect>
        </property>
       </widget>
@@ -133,27 +133,8 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="3" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-           <widget class="QPushButton" name="rotr_btn">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Rotate Clockwise</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="object-rotate-right"/>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QSpinBox" name="crop_left">
+          <item row="2" column="2" colspan="2">
+           <widget class="QSpinBox" name="crop_bottom">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -161,7 +142,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>Crop Left</string>
+             <string>Crop Bottom</string>
             </property>
             <property name="accelerated">
              <bool>true</bool>
@@ -190,25 +171,6 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="2" colspan="2">
-           <widget class="QSpinBox" name="crop_bottom">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Crop Bottom</string>
-            </property>
-            <property name="accelerated">
-             <bool>true</bool>
-            </property>
-            <property name="maximum">
-             <number>10000</number>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="2" colspan="2">
            <widget class="QSpinBox" name="crop_top">
             <property name="sizePolicy">
@@ -219,6 +181,54 @@
             </property>
             <property name="toolTip">
              <string>Crop Top</string>
+            </property>
+            <property name="accelerated">
+             <bool>true</bool>
+            </property>
+            <property name="maximum">
+             <number>10000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+           <widget class="QPushButton" name="rotr_btn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Rotate Clockwise</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="object-rotate-right"/>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="6" alignment="Qt::AlignHCenter">
+           <widget class="QCheckBox" name="crop_in_percent">
+            <property name="text">
+             <string>Crop Values in Percentage</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QSpinBox" name="crop_left">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Crop Left</string>
             </property>
             <property name="accelerated">
              <bool>true</bool>
@@ -548,7 +558,7 @@
           <item row="0" column="0" colspan="2" alignment="Qt::AlignHCenter">
            <widget class="QCheckBox" name="preview_original_sz">
             <property name="text">
-             <string>Preview in Original Size</string>
+             <string>Preview in Actual Size</string>
             </property>
             <property name="checked">
              <bool>false</bool>
@@ -581,6 +591,9 @@
   </widget>
  </widget>
  <tabstops>
+  <tabstop>rotl_btn</tabstop>
+  <tabstop>rotr_btn</tabstop>
+  <tabstop>crop_in_percent</tabstop>
   <tabstop>crop_top</tabstop>
   <tabstop>crop_left</tabstop>
   <tabstop>crop_right</tabstop>
@@ -596,25 +609,10 @@
   <tabstop>copy_btn</tabstop>
   <tabstop>save_btn</tabstop>
   <tabstop>image_frame</tabstop>
+  <tabstop>phony_btn</tabstop>
  </tabstops>
  <resources/>
  <connections>
-  <connection>
-   <sender>crop_left</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>phony_btn</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>779</x>
-     <y>113</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>834</x>
-     <y>123</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>crop_top</sender>
    <signal>valueChanged(int)</signal>
@@ -752,6 +750,22 @@
     <hint type="sourcelabel">
      <x>962</x>
      <y>420</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>834</x>
+     <y>123</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_left</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>phony_btn</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>779</x>
+     <y>113</y>
     </hint>
     <hint type="destinationlabel">
      <x>834</x>

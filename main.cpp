@@ -1,4 +1,3 @@
-#include <cmath>
 #include <chrono>
 
 using namespace std::literals;
@@ -50,15 +49,45 @@ int main(int argc, char* argv[])
         img_view.scale2fit(state == Qt::Unchecked);
     });
     
+    QObject::connect(ui.crop_in_percent, &QCheckBox::stateChanged, [&](int state)
+    {
+        if (input_img.isNull()) return;
+        
+        if (state == Qt::Checked)
+        {
+            // absolute to percentage
+            ui.crop_top->setValue(ui.crop_top->value()*100.f / input_img.height());
+            ui.crop_left->setValue(ui.crop_left->value()*100.f / input_img.width());
+            ui.crop_right->setValue(ui.crop_right->value()*100.f / input_img.width());
+            ui.crop_bottom->setValue(ui.crop_bottom->value()*100.f / input_img.height());
+        }
+        else
+        {
+            // percentage to absolute
+            ui.crop_top->setValue(ui.crop_top->value()/100.f * input_img.height());
+            ui.crop_left->setValue(ui.crop_left->value()/100.f * input_img.width());
+            ui.crop_right->setValue(ui.crop_right->value()/100.f * input_img.width());
+            ui.crop_bottom->setValue(ui.crop_bottom->value()/100.f * input_img.height());
+        }
+    });
+    
     bool png_mode = false;
     
     auto compute_output = [&]
     {
+        QImage img = input_img;
         int quality = png_mode ? 0 : ui.img_quality->sliderPosition(); // max compression for png
         
-        // crop
-        auto img = input_img.copy(QRect{QPoint{ui.crop_left->value(),                      ui.crop_top->value()},
-                                        QPoint{input_img.width() - ui.crop_right->value(), input_img.height() - ui.crop_bottom->value()}});
+        if (ui.crop_in_percent->isChecked())
+        {
+            img = img.copy(QRect{QPoint(    ui.crop_left->value()/100.f  * img.width(),    ui.crop_top->value()   /100.f  * img.height()),
+                                 QPoint((1-ui.crop_right->value()/100.f) * img.width(), (1-ui.crop_bottom->value()/100.f) * img.height())});
+        }
+        else // crop values in pixels
+        {
+            img = img.copy(QRect{QPoint{ui.crop_left->value(),                ui.crop_top->value()},
+                                 QPoint{img.width() - ui.crop_right->value(), img.height() - ui.crop_bottom->value()}});            
+        }
         
         // rotate
         img = img.transformed(QTransform{}.rotate(rotation));
