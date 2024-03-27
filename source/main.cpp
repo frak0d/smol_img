@@ -116,6 +116,8 @@ int main(int argc, char* argv[])
         {
             res = (min_res + max_res) / 2;
             
+            printf("(%d,%d) q=%d\n", res.width(), res.height(), quality); fflush(stdout);
+            
             // scaling
             auto img2 = img.scaled(res, Qt::KeepAspectRatio, Qt::SmoothTransformation);
             
@@ -134,12 +136,8 @@ int main(int argc, char* argv[])
                     quality -= 1;
                     continue; // skip resolution adj part
                 }
-                else if (diff < -delta) // too low
-                {
-                    quality += 1;
-                    continue; // skip resolution adj part
-                }
-                else break; // perfect
+                else break; // no need to handle "too low" since we always start from "too high" and decrement 1 at a time
+                            // handling "too low" will lead to bistable condition causing deadlock on some images
             }
             
             if ((max_res.width() - min_res.width()) < 50 or

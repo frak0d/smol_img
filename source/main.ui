@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>smol_img tool v1.2 by frakod</string>
+   <string>smol_img tool v1.3 by frakod</string>
   </property>
   <property name="windowIcon">
    <iconset theme="zoom-fit-best"/>
@@ -28,8 +28,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>648</width>
-         <height>661</height>
+         <width>666</width>
+         <height>665</height>
         </rect>
        </property>
       </widget>
